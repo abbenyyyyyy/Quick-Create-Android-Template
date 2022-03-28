@@ -5,14 +5,17 @@
     <vendor>abbenyyyyyy</vendor>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>org.jetbrains.kotlin</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <applicationService serviceImplementation="com.github.abbenyyyyyy.quickcreateandroidtemplate.services.MyApplicationService"/>
         <projectService serviceImplementation="com.github.abbenyyyyyy.quickcreateandroidtemplate.services.MyProjectService"/>
     </extensions>
-
-    <applicationListeners>
-        <listener class="com.github.abbenyyyyyy.quickcreateandroidtemplate.listeners.MyProjectManagerListener"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
-    </applicationListeners>
+    <actions>
+        <!-- 行为动作(Action)静态注册 -->
+        <action id="QuickCreateAndroidTemplate.NewAndroidTemplateAction" class="com.github.abbenyyyyyy.quickcreateandroidtemplate.actions.NewAndroidTemplateAction">
+            <!-- add-to-group 声明该行为动作按钮添加到右键新建菜单列表中 -->
+            <add-to-group group-id="NewGroup"  />
+        </action>
+    </actions>
 </idea-plugin>
