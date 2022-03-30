@@ -4,6 +4,7 @@ import com.android.tools.idea.npw.project.getModuleTemplates
 import com.android.tools.idea.npw.project.getPackageForPath
 import com.github.abbenyyyyyy.quickcreateandroidtemplate.QuickTemplateBundle
 import com.github.abbenyyyyyy.quickcreateandroidtemplate.dialogs.NewActivityTemplateDialog
+import com.github.abbenyyyyyy.quickcreateandroidtemplate.utils.CustomPathUtil
 import com.github.abbenyyyyyy.quickcreateandroidtemplate.utils.PrintUtil
 import com.intellij.ide.actions.CreateFileFromTemplateAction
 import com.intellij.ide.actions.CreateFileFromTemplateDialog
@@ -13,6 +14,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiDirectory
+import com.intellij.util.PathUtil
 import org.jetbrains.android.dom.manifest.Manifest
 import org.jetbrains.android.facet.AndroidFacet
 import org.jetbrains.kotlin.idea.KotlinIcons
@@ -23,6 +25,7 @@ class NewAndroidTemplateAction : AnAction(
     KotlinIcons.CLASS
 ) {
     override fun actionPerformed(e: AnActionEvent) {
+        val currentProject = e.project ?: return
         // action 对应的上下文
         val dataContext = e.dataContext
         // 获取到当前 IDE 的对象
@@ -39,6 +42,12 @@ class NewAndroidTemplateAction : AnAction(
 //        PrintUtil.log("检查:${dir.virtualFile} ..${appPackage} .. ${dir.virtualFile.name}")
 //        PrintUtil.log("----${dir.virtualFile.parent.name} ..${dir.virtualFile.path} ..${dir.virtualFile.canonicalPath}")
 //        PrintUtil.log("----${pathPackage}")
-        NewActivityTemplateDialog(dir.virtualFile.name, appPackage, pathPackage).show()
+        NewActivityTemplateDialog(
+            currentProject,
+            dir,
+            CustomPathUtil.getFirstUpperCasePath(dir.virtualFile.name),
+            appPackage,
+            pathPackage
+        ).show()
     }
 }

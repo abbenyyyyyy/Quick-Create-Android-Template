@@ -13,6 +13,7 @@
                 serviceImplementation="com.github.abbenyyyyyy.quickcreateandroidtemplate.services.MyApplicationService"/>
         <projectService
                 serviceImplementation="com.github.abbenyyyyyy.quickcreateandroidtemplate.services.MyProjectService"/>
+        <internalFileTemplate name="QuickViewModel"/>
     </extensions>
     <actions>
         <!-- 行为动作(Action)静态注册 -->
