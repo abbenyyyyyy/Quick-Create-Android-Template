@@ -2,6 +2,6 @@
 
 # Quick-Create-Android-Template Changelog
 
-## [Unreleased]
-### Added
-- Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
+## 0.0.1
+### 添加
+- 快速创建 Activity 模版

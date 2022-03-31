@@ -1,0 +1,12 @@
+package ${PATH_PACKAGE_NAME}
+
+import ${APP_PACKAGE}.base.BaseActivity
+import ${APP_PACKAGE}.databinding.${ACTIVITY_NAME}Binding
+
+class ${ACTIVITY_NAME} : BaseActivity<${ACTIVITY_NAME}Binding, ${VIEW_MODEL_NAME}>() {
+    override fun subscribeUi(viewModel: ${VIEW_MODEL_NAME}) {
+    }
+
+    override fun initView() {
+    }
+}

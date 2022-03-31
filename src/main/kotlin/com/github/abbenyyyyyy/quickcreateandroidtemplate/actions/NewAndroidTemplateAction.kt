@@ -1,22 +1,19 @@
 package com.github.abbenyyyyyy.quickcreateandroidtemplate.actions
 
+import com.android.resources.ResourceFolderType
 import com.android.tools.idea.npw.project.getModuleTemplates
 import com.android.tools.idea.npw.project.getPackageForPath
+import com.android.tools.idea.projectsystem.SourceProviders
 import com.github.abbenyyyyyy.quickcreateandroidtemplate.QuickTemplateBundle
 import com.github.abbenyyyyyy.quickcreateandroidtemplate.dialogs.NewActivityTemplateDialog
 import com.github.abbenyyyyyy.quickcreateandroidtemplate.utils.CustomPathUtil
-import com.github.abbenyyyyyy.quickcreateandroidtemplate.utils.PrintUtil
-import com.intellij.ide.actions.CreateFileFromTemplateAction
-import com.intellij.ide.actions.CreateFileFromTemplateDialog
-import com.intellij.ide.fileTemplates.FileTemplateUtil
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.LangDataKeys
-import com.intellij.openapi.project.Project
-import com.intellij.psi.PsiDirectory
-import com.intellij.util.PathUtil
+import com.intellij.psi.PsiManager
 import org.jetbrains.android.dom.manifest.Manifest
 import org.jetbrains.android.facet.AndroidFacet
+import org.jetbrains.android.util.AndroidUtils
 import org.jetbrains.kotlin.idea.KotlinIcons
 
 class NewAndroidTemplateAction : AnAction(
@@ -34,19 +31,22 @@ class NewAndroidTemplateAction : AnAction(
         val facet = AndroidFacet.getInstance(module) ?: return
         // action 右键点击的文件夹
         val dir = view.orChooseDirectory ?: return
-        val manifest = Manifest.getMainManifest(facet)
+        val manifest = Manifest.getMainManifest(facet) ?: return
         // 这里获得的是右键文件夹(文件)所在模块的清单文件里的 package 字段
-        val appPackage = manifest?.`package`?.value ?: ""
+        val appPackage = manifest.`package`.value ?: ""
         // 这里获得的是右键文件夹对应的 package
         val pathPackage = facet.getPackageForPath(facet.getModuleTemplates(dir.virtualFile), dir.virtualFile)
-//        PrintUtil.log("检查:${dir.virtualFile} ..${appPackage} .. ${dir.virtualFile.name}")
-//        PrintUtil.log("----${dir.virtualFile.parent.name} ..${dir.virtualFile.path} ..${dir.virtualFile.canonicalPath}")
-//        PrintUtil.log("----${pathPackage}")
+        // 这里获得 layout 文件夹的 PsiDirectory
+        val mainManifestFile = SourceProviders.getInstance(facet).mainManifestFile?:return
+        val resFile = mainManifestFile.parent.findChild("res")?:return
+        val layoutFile = AndroidUtils.createChildDirectoryIfNotExist(currentProject,resFile,ResourceFolderType.LAYOUT.name)
+        val layoutResDir = PsiManager.getInstance(currentProject).findDirectory(layoutFile)?:return
         NewActivityTemplateDialog(
             currentProject,
+            manifest,
             dir,
+            layoutResDir,
             CustomPathUtil.getFirstUpperCasePath(dir.virtualFile.name),
-            appPackage,
             pathPackage
         ).show()
     }

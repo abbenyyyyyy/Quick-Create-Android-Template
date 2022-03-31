@@ -1,41 +1,30 @@
-# Quick-Create-Android-Template
-
-![Build](https://github.com/abbenyyyyyy/Quick-Create-Android-Template/workflows/Build/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
-
-## Template ToDo list
-- [x] Create a new [IntelliJ Platform Plugin Template][template] project.
-- [ ] Get familiar with the [template documentation][template].
-- [ ] Verify the [pluginGroup](/gradle.properties), [plugin ID](/src/main/resources/META-INF/plugin.xml) and [sources package](/src/main/kotlin).
-- [ ] Review the [Legal Agreements](https://plugins.jetbrains.com/docs/marketplace/legal-agreements.html).
-- [ ] [Publish a plugin manually](https://plugins.jetbrains.com/docs/intellij/publishing-plugin.html?from=IJPluginTemplate) for the first time.
-- [ ] Set the Plugin ID in the above README badges.
-- [ ] Set the [Deployment Token](https://plugins.jetbrains.com/docs/marketplace/plugin-upload.html).
-- [ ] Click the <kbd>Watch</kbd> button on the top of the [IntelliJ Platform Plugin Template][template] to be notified about releases containing new features and fixes.
-
+### 简介
 <!-- Plugin description -->
-This Fancy IntelliJ Platform Plugin is going to be your implementation of the brilliant ideas that you have.
+#### 这是一个 IntelliJ IDEA 插件，可帮助您快速创建 Activity 模版。
 
-This specific section is a source for the [plugin.xml](/src/main/resources/META-INF/plugin.xml) file which will be extracted by the [Gradle](/build.gradle.kts) during the build process.
+- 创建 Activity 、layout 布局文件和 viewModel,并将 Activity 自动注册到清单文件
 
-To keep everything working, do not remove `<!-- ... -->` sections. 
 <!-- Plugin description end -->
 
-## Installation
 
-- Using IDE built-in plugin system:
-  
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "Quick-Create-Android-Template"</kbd> >
-  <kbd>Install Plugin</kbd>
-  
-- Manually:
+### 编译与调试
 
-  Download the [latest release](https://github.com/abbenyyyyyy/Quick-Create-Android-Template/releases/latest) and install it manually using
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
+该插件基于 [IntelliJ 平台插件模板](https://github.com/JetBrains/intellij-platform-plugin-template) 开发,若想了解更多,可以阅读其文档.
 
+1. 克隆该项目;
+2. 使用 IntelliJ IDEA 社区版打开;
+3. 调试
+  - 打开右侧 gradle 工具窗口,点击 `intelliJ -> runIde` 执行调试
+  - 或者执行命令 `./gradlew runIde` 执行调试
+4. 编译
+  - 打开右侧 gradle 工具窗口,点击 `intelliJ -> buildPlugin` 执行编译
+  - 或者执行命令 `./gradlew buildPlugin` 执行编译
+5. 编译完成后在 `./build/distributions` 目录下生成插件安装包
 
----
-Plugin based on the [IntelliJ Platform Plugin Template][template].
+### 参考
 
-[template]: https://github.com/JetBrains/intellij-platform-plugin-template
+[IDEA 插件开发官方指南](https://plugins.jetbrains.com/docs/intellij/welcome.html)
+
+[Java swing 布局与控件官方教程](https://docs.oracle.com/javase/tutorial/uiswing/layout/index.html)
+
+[IntelliJ 在 Android Studio 的 Android 插件代码仓库](https://github.com/JetBrains/android)

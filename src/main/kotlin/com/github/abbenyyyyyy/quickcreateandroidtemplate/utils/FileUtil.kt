@@ -1,21 +1,22 @@
 package com.github.abbenyyyyyy.quickcreateandroidtemplate.utils
 
-import com.intellij.ide.fileTemplates.FileTemplate
+import com.github.abbenyyyyyy.quickcreateandroidtemplate.beans.CreateFileTemplateBean
 import com.intellij.ide.fileTemplates.FileTemplateManager
 import com.intellij.ide.fileTemplates.FileTemplateUtil
 import com.intellij.openapi.project.Project
-import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiElement
 
-class FileUtil(private val project: Project) {
+class FileUtil(project: Project) {
 
-    fun createFile(templateName:String){
-//        val fileTemplate = FileTemplateManager.getInstance(project).getInternalTemplate(template.templateFileName)
-//        FileTemplateUtil.createFromTemplate(
-//            fileTemplate,
-//            template.resultFileName,
-//            template.getProperties(templateProperties),
-//            newDestinationDirectory
-//        )
+    val fileTemplateManager: FileTemplateManager = FileTemplateManager.getInstance(project)
+
+    fun createFile(createFileTemplateBean: CreateFileTemplateBean): PsiElement {
+        val fileTemplate = fileTemplateManager.getInternalTemplate(createFileTemplateBean.templateName)
+        return FileTemplateUtil.createFromTemplate(
+            fileTemplate,
+            createFileTemplateBean.fileName,
+            createFileTemplateBean.properties,
+            createFileTemplateBean.directory
+        )
     }
 }

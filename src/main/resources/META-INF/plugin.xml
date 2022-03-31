@@ -9,11 +9,9 @@
     <depends>org.jetbrains.android</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService
-                serviceImplementation="com.github.abbenyyyyyy.quickcreateandroidtemplate.services.MyApplicationService"/>
-        <projectService
-                serviceImplementation="com.github.abbenyyyyyy.quickcreateandroidtemplate.services.MyProjectService"/>
+        <internalFileTemplate name="QuickLayout"/>
         <internalFileTemplate name="QuickViewModel"/>
+        <internalFileTemplate name="QuickActivity"/>
     </extensions>
     <actions>
         <!-- 行为动作(Action)静态注册 -->

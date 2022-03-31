@@ -1,19 +1,21 @@
 package com.github.abbenyyyyyy.quickcreateandroidtemplate.dialogs
 
 import com.github.abbenyyyyyy.quickcreateandroidtemplate.QuickTemplateBundle
+import com.github.abbenyyyyyy.quickcreateandroidtemplate.beans.CreateFileTemplateBean
 import com.github.abbenyyyyyy.quickcreateandroidtemplate.utils.CustomPathUtil
-import com.intellij.ide.fileTemplates.FileTemplateManager
-import com.intellij.ide.fileTemplates.FileTemplateUtil
+import com.github.abbenyyyyyy.quickcreateandroidtemplate.utils.FileUtil
 import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.psi.PsiDirectory
 import com.intellij.util.ui.JBEmptyBorder
+import org.jetbrains.android.dom.manifest.Manifest
+import org.jetbrains.kotlin.psi.KtFile
 import java.awt.Component
 import java.awt.Dimension
 import java.awt.Font
 import javax.swing.*
-import javax.swing.border.MatteBorder
 import javax.swing.event.DocumentEvent
 import javax.swing.event.DocumentListener
 
@@ -22,12 +24,14 @@ import javax.swing.event.DocumentListener
  */
 class NewActivityTemplateDialog(
     private val project: Project,
+    private val manifest: Manifest,
     private val chooseDirectory: PsiDirectory,
-    private val parentPath: String,
-    private val appPackage: String,
-    private val pathPackage: String,
+    private val resLayoutDirectory: PsiDirectory,
+    parentPath: String,
+    pathPackage: String,
 ) : DialogWrapper(false) {
 
+    private val appPackage = manifest.`package`.value ?: ""
     private val maxEditTextLength = 30
     private val singleLineHeight = 40
 
@@ -120,30 +124,46 @@ class NewActivityTemplateDialog(
         if (warnMessage.isNotEmpty()) {
             WarnDialog(warnMessage).show()
         } else {
-            ApplicationManager.getApplication().executeOnPooledThread {
+            CommandProcessor.getInstance().executeCommand(project, {
+                val fileUtil = FileUtil(project)
                 // 新建 layout 布局文件
-
-                // 新建 ViewModel 文件
-
-                // 新建 Activity 文件
-
-
-
-                val fileTemplateManager = FileTemplateManager.getInstance(project)
-                // 生成传递给模版的值
-                val templateProperties = fileTemplateManager.defaultProperties
-                templateProperties["PATH_PACKAGE_NAME"] = editPackageName.text
-                templateProperties["APP_PACKAGE"] = appPackage
-                templateProperties["VIEW_MODEL_NAME"] = editViewModelName.text
-                //
-                val fileTemplate = fileTemplateManager.getInternalTemplate("QuickViewModel")
-                FileTemplateUtil.createFromTemplate(
-                    fileTemplate,
-                    editViewModelName.text,
-                    templateProperties,
-                    chooseDirectory
+                fileUtil.createFile(
+                    CreateFileTemplateBean(
+                        "QuickLayout",
+                        editActivityLayoutName.text,
+                        fileUtil.fileTemplateManager.defaultProperties,
+                        resLayoutDirectory
+                    )
                 )
-            }
+                // 新建 ViewModel 文件
+                val viewModelProperties = fileUtil.fileTemplateManager.defaultProperties
+                viewModelProperties["PATH_PACKAGE_NAME"] = editPackageName.text
+                viewModelProperties["APP_PACKAGE"] = appPackage
+                viewModelProperties["VIEW_MODEL_NAME"] = editViewModelName.text
+                fileUtil.createFile(
+                    CreateFileTemplateBean(
+                        "QuickViewModel", editViewModelName.text, viewModelProperties, chooseDirectory
+                    )
+                )
+                // 新建 Activity 文件
+                val activityProperties = fileUtil.fileTemplateManager.defaultProperties
+                activityProperties["PATH_PACKAGE_NAME"] = editPackageName.text
+                activityProperties["APP_PACKAGE"] = appPackage
+                activityProperties["VIEW_MODEL_NAME"] = editViewModelName.text
+                activityProperties["ACTIVITY_NAME"] = editActivityName.text
+                fileUtil.createFile(
+                    CreateFileTemplateBean(
+                        "QuickActivity", editActivityName.text, activityProperties, chooseDirectory
+                    )
+                )
+                // 注册 Activity 到 清单文件
+                ApplicationManager.getApplication().runWriteAction {
+                    val activity = manifest.application.addActivity()
+                    val activityFile = chooseDirectory.findFile("${editActivityName.text}.kt") as KtFile
+                    @SuppressWarnings("MISSING_DEPENDENCY_CLASS")
+                    activity.activityClass.value = activityFile.getClasses()[0]
+                }
+            }, "addQuickAndroidTemplate", null)
             super.doOKAction()
         }
     }
