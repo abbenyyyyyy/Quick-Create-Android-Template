@@ -1,0 +1,5 @@
+package ${PATH_PACKAGE_NAME}
+
+import ${APP_PACKAGE}.base.BaseAndroidViewModel
+
+class ${VIEW_MODEL_NAME} : BaseAndroidViewModel()

@@ -90,6 +90,14 @@ tasks {
         })
     }
 
+    runIde {
+        // 这里设定 runIde 的时候启动的编辑器路径
+        // 下面是 mac OS 下的 Android Studio 路径,可以在 mac OS 的应用程序里查看
+        ideDir.set(file("/Applications/Android Studio.app/Contents"))
+        // 下面是 Window OS 的 Android Studio 路径示例,只需要指向 Android Studio 的安装根目录就行
+        // ideDir.set(file("D:\\Android Studio"))
+    }
+
     // Configure UI tests plugin
     // Read more: https://github.com/JetBrains/intellij-ui-test-robot
     runIdeForUiTests {
