@@ -6,6 +6,7 @@ import com.github.abbenyyyyyy.quickcreateandroidtemplate.utils.CustomPathUtil
 import com.github.abbenyyyyyy.quickcreateandroidtemplate.utils.FileUtil
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.command.CommandProcessor
+import com.intellij.openapi.fileEditor.FileEditorManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.psi.PsiDirectory
@@ -162,6 +163,8 @@ class NewActivityTemplateDialog(
                     val activityFile = chooseDirectory.findFile("${editActivityName.text}.kt") as KtFile
                     @SuppressWarnings("MISSING_DEPENDENCY_CLASS")
                     activity.activityClass.value = activityFile.getClasses()[0]
+                    // 打开 Activity
+                    FileEditorManager.getInstance(project).openFile(activityFile.virtualFile, true)
                 }
             }, "addQuickAndroidTemplate", null)
             super.doOKAction()
