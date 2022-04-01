@@ -1,3 +1,7 @@
+<p>
+    <a href="https://github.com/abbenyyyyyy/Quick-Create-Android-Template/releases" target="_blank"><img src="readme_resources/releases-0.0.2-blue.svg" alt="version" /></a>
+</p>
+
 ### 简介
 <!-- Plugin description -->
 #### 这是一个 IntelliJ IDEA 插件，可帮助您快速创建 Activity 模版。
@@ -6,6 +10,9 @@
 
 <!-- Plugin description end -->
 
+### 效果演示
+
+![Screencast](./readme_resources/Quick-Create-Android-Template.gif)
 
 ### 编译与调试
 
