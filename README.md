@@ -28,6 +28,8 @@
   - 或者执行命令 `./gradlew buildPlugin` 执行编译
 5. 编译完成后在 `./build/distributions` 目录下生成插件安装包
 
+配合快速调试的 [Android 项目](https://github.com/abbenyyyyyy/DebugAndroidPlugin)
+
 ### 参考
 
 [IDEA 插件开发官方指南](https://plugins.jetbrains.com/docs/intellij/welcome.html)
