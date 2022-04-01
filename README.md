@@ -28,7 +28,7 @@
   - 或者执行命令 `./gradlew buildPlugin` 执行编译
 5. 编译完成后在 `./build/distributions` 目录下生成插件安装包
 
-配合快速调试的 [Android 项目](https://github.com/abbenyyyyyy/DebugAndroidPlugin)
+配合快速调试的 [Android 项目](https://github.com/abbenyyyyyy/DebugAndroidPlugin) 。
 
 ### 参考
 
